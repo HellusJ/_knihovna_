@@ -28,6 +28,6 @@ knihy = {
         "autor": "Karel Čapek",
         "ISBN": "5",
         "dostupnost": "ANO"
-    }
+    },
 }
 

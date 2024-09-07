@@ -1,5 +1,7 @@
 import os
+from knihy import *
 
+#registrace
 slozka_hesel = "users.txt"
 
 registration_exists = os.path.exists(slozka_hesel) and os.path.getsize(slozka_hesel) > 0
@@ -29,3 +31,22 @@ else:
         file.write(f"{jmeno},{heslo}")
 
     print("Registrace byla úspěšná! Nyní se můžete přihlásit.")
+
+#pridani knih
+def addbook():
+    poradiknihy = str(input("Zadejte poradi knihy: "))
+    knizka = f"kniha{poradiknihy}"
+    nazevknihy = str(input("Zadejte název knihy: "))
+    nazevautora = str(input("Zadejte jméno autora: "))
+    isbn = str(input("Zadejte ISBN knihy: "))
+
+    veci = {
+        "název": nazevknihy,
+        "autor": nazevautora,
+        "ISBN": isbn,
+        "dostupnost": "ANO"
+    }
+
+    knihy[knizka] = veci
+    print(knihy)
+
