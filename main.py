@@ -1,4 +1,5 @@
 import os
+import matplotlib.pyplot as plt
 import time as t
 from knihy import *
 from datetime import date
@@ -17,6 +18,7 @@ def addbook():
         "ISBN": isbn,
         "dostupnost": "ANO"}
     knihy[knizka] = veci
+    print("Kniha byla úspěšně přidána")
 
 pujceneknihy = {}
 
@@ -51,6 +53,30 @@ def returnbook():
                 print("Kniha úspěšně vrácena")
                 del pujceneknihy[klic]
                 break
+
+#graf podle autoru
+autori_count = {}
+def getchart():
+    for kniha in knihy.values():
+        autor = kniha["autor"]
+        if autor in autori_count:
+            autori_count[autor] += 1
+        else:
+            autori_count[autor] = 1
+
+    autori = list(autori_count.keys())
+    pocet_knih = list(autori_count.values())
+
+    x = list(autori)
+    y = list(pocet_knih)
+
+    plt.bar(x, y, color="green", label="Počet knih k autorovi")
+
+    plt.xlabel("Autoři")
+    plt.ylabel("Počet knih k autorovi")
+    plt.title("Počet dostupných knih podle autorů")
+    plt.legend()
+    plt.show()
     
 #Registrace
 slozka_hesel = "users.txt"
@@ -92,14 +118,18 @@ while True:
 3 - vaše osobní údaje
 4 - Přídání nové knihy
 5 - Pujčení knihy    
-6 - Vrátit knihu             
-7 - Ukončit program
+6 - Vrátit knihu    
+7 - Zobrazit graf podle autorů         
+8 - Ukončit program
 Pište zde: """))
     print("")
 
-    if menu == 7:
+    if menu == 8:
         print("Ukončuji program")
         exit()
+    
+    if menu == 7:
+        getchart()
 
     if menu == 6:
         returnbook()
