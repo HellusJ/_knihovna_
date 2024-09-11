@@ -1,6 +1,7 @@
 import os
 import time as t
 from knihy import *
+from datetime import date
 
 #FUNKCE
 #pridani knih
@@ -19,19 +20,38 @@ def addbook():
 
 pujceneknihy = {}
 
+dneska = date.today()
+
 #pujceni knihy
 def borrowbook():
-    nazevknihy = str(input("Zadejt název knihy: "))
-    for klic, kniha in knihy.items():
-        if nazevknihy in kniha["název"]:
-            pujceneknihy[klic] = knihy[klic]
-            del knihy[klic]    
-            print(pujceneknihy) 
-            print(knihy)
-            break
-        else:
-            print("Kniha není k dispozici")
+    nazevknihy = str(input("Zadejte název knihy: "))
 
+    for klic, kniha in knihy.items():
+        if kniha["název"] == nazevknihy:
+            pujceneknihy[klic] = knihy[klic]
+            del knihy[klic]
+            print("Kniha byla úspěšně půjčena.")
+            print(f"Datum výpůjčky: {dneska}")
+            print(f"Název knihy: {nazevknihy}")
+            print(f"Uživatel: {jmeno}")
+            break
+    else:
+        print("Kniha není k dispozici")
+
+#vraceni knihy
+def returnbook():
+    if not pujceneknihy:
+        print("Nemáte žádné půjčené knihy")
+
+    else:
+        vraceni = str(input("Napište název knihy, kterou chcete vrátit: "))
+        for klic, kniha in pujceneknihy.items():
+            if kniha["název"] == vraceni:
+                knihy[klic] = pujceneknihy[klic]
+                print("Kniha úspěšně vrácena")
+                del pujceneknihy[klic]
+                break
+    
 #registrace
 slozka_hesel = "users.txt"
 
@@ -49,6 +69,7 @@ if registration_exists:
         uziv_jmeno, uziv_heslo = user.strip().split(",")
         if jmeno == uziv_jmeno and heslo == uziv_heslo:
             print("Přihlášení bylo úspěšné!")
+            print("")
             break
     else:
         print("Nesprávné uživatelské jméno nebo heslo.")
@@ -70,27 +91,42 @@ while True:
 2 - seznam všech knih
 3 - vaše osobní údaje
 4 - Přídání nové knihy
-5 - Pujčení knihy                 
-6 - Ukončit program
+5 - Pujčení knihy    
+6 - Vrátit knihu             
+7 - Ukončit program
 Pište zde: """))
+    print("")
 
-    if menu == 6:
+    if menu == 7:
         print("Ukončuji program")
         exit()
+
+    if menu == 6:
+        returnbook()
+        input()
+
+    if menu == 5:
+        borrowbook()
+        input()
+
+    if menu == 4:
+        addbook()
+        input()   
 
     if menu == 3:
         print(f"Jméné: {jmeno}")
         print(f"Heslo: {heslo}")
-        t.sleep(2.5)
+        input()
 
     if menu == 2:
         for kniha in knihy.values():
             print(kniha["název"])
-        t.sleep(4)
+        input()
 
-    if menu == 4:
-        addbook()
-
-    if menu == 5:
-        borrowbook()
-        
+    if menu == 1:
+        if not pujceneknihy:
+            print("Žádné půjčené knihy")
+        else:
+            for Kniha in pujceneknihy.values():
+                print(Kniha["název"])
+        input()
