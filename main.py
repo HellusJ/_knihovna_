@@ -52,7 +52,7 @@ def returnbook():
                 del pujceneknihy[klic]
                 break
     
-#registrace
+#Registrace
 slozka_hesel = "users.txt"
 
 registration_exists = os.path.exists(slozka_hesel) and os.path.getsize(slozka_hesel) > 0
